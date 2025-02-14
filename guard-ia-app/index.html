@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Herramientas GUARD-IA</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .title {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .button {
+      background-color: #333;
+      padding: 15px 25px;
+      border-radius: 12px;
+      text-decoration: none;
+      color: white;
+      font-size: 18px;
+      transition: 0.3s;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    }
+    .button:hover {
+      background-color: #444;
+      transform: scale(1.05);
+    }
+    .info-icon {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #007BFF;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 20px;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    }
+    .popup {
+      position: fixed;
+      bottom: 70px;
+      right: 20px;
+      background-color: #333;
+      color: white;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+      max-width: 300px;
+      display: none;
+      text-align: left;
+    }
+    .popup p {
+      margin: 0 0 10px 0;
+      font-size: 14px;
+    }
+    .popup button {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .popup button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">Herramientas GUARD-IA</h1>
+    <div class="button-container">
+      <a href="https://chatgpt.com/g/g-6766e58171cc81918eb92f23b79f66ae-guard-ia" class="button" target="_blank">
+        🤖 ChatGPT GUARD-IA
+      </a>
+      <a href="herramientas-guardia/calculadora-de-drogas/index.html" class="button" target="_self">
+        🧮 Calculadora de Drogas
+      </a>
+      <a href="herramientas-guardia/bloc-de-notas/index.html" class="button" target="_self">
+        📝 Bloc de Notas
+      </a>
+    </div>
+  </div>
+
+  <!-- Ícono de información -->
+  <div class="info-icon" onclick="togglePopup()">i</div>
+
+  <!-- Popup emergente -->
+  <div class="popup" id="popup">
+    <p>
+      Esta herramienta no almacena información, se mantiene en su almacenamiento local y se elimina cuando usted así lo desee.
+    </p>
+    <button onclick="togglePopup()">Cerrar</button>
+  </div>
+
+  <script>
+    function togglePopup() {
+      var popup = document.getElementById("popup");
+      popup.style.display = (popup.style.display === "block") ? "none" : "block";
+    }
+  </script>
+</body>
+</html>
+
