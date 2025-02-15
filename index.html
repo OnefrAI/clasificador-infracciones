@@ -8,90 +8,134 @@
     body {
       background-color: #121212;
       color: white;
-      font-family: Arial, sans-serif;
+      font-family: 'Arial', sans-serif;
       text-align: center;
       margin: 0;
       padding: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
     }
+
     .container {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
+      min-height: 80vh; /* Se ajusta la altura para que no quede tan abajo */
     }
+
     .title {
       font-size: 28px;
+      font-weight: bold;
       margin-bottom: 20px;
     }
+
     .button-container {
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 12px;
+      width: 90%;
+      max-width: 350px;
     }
+
     .button {
-      background-color: #333;
-      padding: 15px 25px;
-      border-radius: 12px;
+      background: linear-gradient(145deg, #1e1e1e, #292929);
+      padding: 14px;
+      border-radius: 10px;
       text-decoration: none;
       color: white;
-      font-size: 18px;
-      transition: 0.3s;
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+      font-size: 16px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+      display: block;
     }
+
     .button:hover {
-      background-color: #444;
+      background: linear-gradient(145deg, #292929, #333);
       transform: scale(1.05);
     }
+
+    /* Ícono de información */
     .info-icon {
       position: fixed;
-      bottom: 20px;
-      right: 20px;
+      bottom: 60px;
+      right: 15px;
       background-color: #007BFF;
-      width: 40px;
-      height: 40px;
+      width: 45px;
+      height: 45px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 20px;
+      font-size: 22px;
+      font-weight: bold;
+      color: white;
       box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
     }
+
     .popup {
       position: fixed;
-      bottom: 70px;
-      right: 20px;
+      bottom: 110px;
+      right: 15px;
       background-color: #333;
       color: white;
-      padding: 15px;
-      border-radius: 12px;
+      padding: 12px;
+      border-radius: 10px;
       box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-      max-width: 300px;
+      max-width: 280px;
       display: none;
       text-align: left;
+      font-size: 13px;
     }
-    .popup p {
-      margin: 0 0 10px 0;
-      font-size: 14px;
-    }
+
     .popup button {
       background-color: #007BFF;
       color: white;
       border: none;
-      padding: 8px 12px;
-      border-radius: 8px;
+      padding: 6px 10px;
+      border-radius: 6px;
       cursor: pointer;
-      font-size: 14px;
+      font-size: 13px;
+      margin-top: 8px;
     }
+
     .popup button:hover {
       background-color: #0056b3;
     }
+
+    /* Estilo del contacto de Telegram */
+    .footer {
+      width: 100%;
+      background-color: #1e1e1e;
+      padding: 10px 5px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: bold;
+      position: fixed;
+      bottom: 0;
+    }
+
+    .footer a {
+      color: #007BFF;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
   </style>
 </head>
 <body>
   <div class="container">
     <h1 class="title">Herramientas GUARD-IA</h1>
+    
     <div class="button-container">
       <a href="https://chatgpt.com/g/g-6766e58171cc81918eb92f23b79f66ae-guard-ia" class="button" target="_blank">
         🤖 ChatGPT GUARD-IA
@@ -114,6 +158,12 @@
       Esta herramienta no almacena información, se mantiene en su almacenamiento local y se elimina cuando usted así lo desee.
     </p>
     <button onclick="togglePopup()">Cerrar</button>
+  </div>
+
+  <!-- Contacto en la parte inferior siempre visible -->
+  <div class="footer">
+    📩 Contacto para dudas o sugerencias: 
+    <a href="https://t.me/OnefraGT" target="_blank">@OnefraGT</a>
   </div>
 
   <script>
