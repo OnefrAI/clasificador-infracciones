@@ -19,7 +19,8 @@
       <input type="text" id="fullName" name="fullName">
 
       <label for="birthdate">Fecha de nacimiento:</label>
-      <input type="text" id="birthdate" name="birthdate" placeholder="DD-MM-AAAA">
+      <!-- Se agrega inputmode y pattern para activar el teclado numérico en móviles -->
+      <input type="text" id="birthdate" name="birthdate" placeholder="DD-MM-AAAA" inputmode="numeric" pattern="[0-9-]*">
 
       <label for="parentsName">Nombre del padre y la madre:</label>
       <input type="text" id="parentsName" name="parentsName">
@@ -34,12 +35,10 @@
       <textarea id="facts" name="facts" rows="4"></textarea>
 
       <div class="button-container">
-         <!-- Botón azul para activar la cámara (izquierda) -->
+         <!-- Botón azul para activar la cámara (25% del ancho) -->
          <button type="button" id="activateCameraButton" class="btn activate-camera-btn">📷</button>
-         <!-- Botón amarillo para guardar la nota (centro) -->
+         <!-- Botón amarillo para guardar la nota (75% del ancho) -->
          <button type="submit" id="saveNoteButton" class="btn save-btn">Guardar Nota</button>
-         <!-- Botón verde para compartir la nota (derecha) -->
-         <button type="button" id="shareNoteButton" class="btn share-btn" disabled>📤 Compartir Nota</button>
       </div>
       
       <!-- Contenedor para el video de la cámara (oculto inicialmente) -->
@@ -52,7 +51,7 @@
         <img id="photoPreview" src="" alt="Foto capturada">
       </div>
       
-      <!-- Contenedor para acciones sobre la foto -->
+      <!-- Contenedor para acciones sobre la foto (botón rehacer foto) -->
       <div id="photoActions" style="display: none;">
         <button type="button" id="retakePhotoButton" class="btn retake-btn">Rehacer Foto</button>
       </div>
@@ -64,6 +63,3 @@
   <script src="script.js"></script>
 </body>
 </html>
-
-
-
