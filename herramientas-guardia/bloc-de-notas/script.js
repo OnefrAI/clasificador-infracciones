@@ -2,8 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const noteForm = document.getElementById('noteForm');
   const notesContainer = document.getElementById('notesContainer');
   const activateCameraButton = document.getElementById('activateCameraButton');
-  let saveNoteButton = document.getElementById('saveNoteButton');
-  const shareNoteButton = document.getElementById('shareNoteButton');
+  const saveNoteButton = document.getElementById('saveNoteButton');
   const videoContainer = document.getElementById('videoContainer');
   const video = document.getElementById('video');
   const photoPreviewContainer = document.getElementById('photoPreviewContainer');
@@ -14,7 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
   let cameraStream = null;
   let tempPhotoData = '';
   let lastSavedNote = null;
-  shareNoteButton.disabled = true;
 
   // Iniciar la cámara
   function startCamera() {
@@ -133,16 +131,9 @@ document.addEventListener('DOMContentLoaded', () => {
     alert("Nota guardada exitosamente.");
 
     lastSavedNote = noteData;
-    shareNoteButton.disabled = false;
   }
 
   // Compartir nota usando la Web Share API
-  shareNoteButton.addEventListener('click', () => {
-    if (lastSavedNote) {
-      shareNote(lastSavedNote);
-    }
-  });
-
   function shareNote(noteData) {
     const shareText = `Nota Policial:
 Documento: ${noteData.documentNumber || 'N/A'}
@@ -183,6 +174,7 @@ Hechos: ${noteData.facts || 'N/A'}`;
         <p><strong>Hechos:</strong> ${note.facts || 'N/A'}</p>
         ${note.photoUrl ? `<img src="${note.photoUrl}" alt="Foto de la nota">` : ''}
         <button onclick="deleteNote(${index})">Eliminar</button>
+        <button onclick="shareNoteFromIndex(${index})">Compartir</button>
       </div>
     `).join('');
   }
@@ -193,6 +185,13 @@ Hechos: ${noteData.facts || 'N/A'}`;
       notes.splice(index, 1);
       localStorage.setItem('notes', JSON.stringify(notes));
       displayNotes();
+    }
+  };
+
+  window.shareNoteFromIndex = function(index) {
+    const notes = JSON.parse(localStorage.getItem('notes')) || [];
+    if (index >= 0 && index < notes.length) {
+      shareNote(notes[index]);
     }
   };
 
