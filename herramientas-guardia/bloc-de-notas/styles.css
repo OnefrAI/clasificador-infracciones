@@ -53,38 +53,40 @@ input, textarea {
   margin-bottom: 15px;
 }
 
-/* Botón "Activar Cámara" (azul) */
+/* Botón "Activar Cámara" (azul, 25% del ancho) */
 .btn.activate-camera-btn {
   background-color: #007BFF;
   padding: 8px 12px;
   font-size: 24px;
   border-radius: 10px;
   margin-right: 5px;
-  flex: 0 0 auto;
+  flex: 0 0 25%;
   border: none;
   color: white;
   cursor: pointer;
   transition: background-color 0.3s;
   font-weight: bold;
   text-shadow: 1px 1px 2px #000;
+  height: 50px;
 }
 .btn.activate-camera-btn:hover {
   background-color: #0056b3;
 }
 
-/* Botón "Guardar Nota" (amarillo) */
+/* Botón "Guardar Nota" (amarillo, 75% del ancho) */
 .btn.save-btn {
   background-color: #ffc107;
   padding: 10px 20px;
   font-size: 16px;
   border-radius: 10px;
-  flex: 1;
+  flex: 0 0 75%;
   border: none;
   color: white;
   cursor: pointer;
   transition: background-color 0.3s;
   font-weight: bold;
   text-shadow: 1px 1px 2px #000;
+  height: 50px;
 }
 .btn.save-btn:hover {
   background-color: #e0a800;
@@ -155,6 +157,7 @@ input, textarea {
   transition: background-color 0.3s;
   font-weight: bold;
   text-shadow: 1px 1px 2px #000;
+  margin-right: 5px;
 }
 .note button:hover {
   background-color: #c82333;
@@ -173,6 +176,3 @@ input, textarea {
   border-radius: 10px;
   margin-top: 15px;
 }
-
-
-
