@@ -92,25 +92,6 @@ input, textarea {
   background-color: #e0a800;
 }
 
-/* Botón "Compartir Nota" (verde) */
-.btn.share-btn {
-  background-color: #28a745;
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 10px;
-  margin-left: 5px;
-  flex: 1;
-  border: none;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  font-weight: bold;
-  text-shadow: 1px 1px 2px #000;
-}
-.btn.share-btn:hover {
-  background-color: #218838;
-}
-
 /* Botón "Rehacer Foto" (rojo) */
 .btn.retake-btn {
   background-color: #dc3545;
@@ -127,6 +108,25 @@ input, textarea {
 }
 .btn.retake-btn:hover {
   background-color: #c82333;
+}
+
+/* Botón "Eliminar Foto" (transparente con borde rojo) */
+.btn.delete-btn {
+  background-color: transparent;
+  border: 2px solid #dc3545;
+  padding: 6px 12px;
+  font-size: 14px;
+  border-radius: 10px;
+  color: #dc3545;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  font-weight: bold;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+.btn.delete-btn:hover {
+  background-color: #dc3545;
+  color: white;
 }
 
 #notesContainer {
@@ -175,4 +175,43 @@ input, textarea {
   max-width: 100%;
   border-radius: 10px;
   margin-top: 15px;
+}
+
+/* Botón para capturar la foto: circular, sin texto, con icono */
+#capturePhotoButton {
+  position: absolute;
+  bottom: 20px; /* Se sube de 10px a 20px */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(255, 255, 255, 0.3);
+  border: none;
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: none;
+  font-size: 32px;
+}
+
+/* Contenedor para acciones sobre la foto */
+#photoActions {
+  display: none;
+  margin-top: 10px;
+}
+
+/* Contenedor para el video de la cámara */
+#videoContainer {
+  position: relative;
+  display: none;
+}
+
+/* Responsividad */
+@media (max-width: 480px) {
+  input, select, button {
+    max-width: 100%;
+  }
+  .container {
+    padding: 15px;
+  }
 }
