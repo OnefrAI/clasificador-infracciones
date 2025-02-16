@@ -4,172 +4,259 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Herramientas GUARD-IA</title>
+  <!-- Google Fonts: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    /* ===================== CSS ===================== */
+    :root {
+      --bg-color: #121212;
+      --bg-gradient-start: #121212;
+      --bg-gradient-end: #1a1a1a;
+      --primary-color: #007BFF;
+      --secondary-color: #333;
+      --hover-color: #444;
+      --text-color: #fff;
+      --link-color: #00f;
+      --button-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+      --modal-bg: rgba(0, 0, 0, 0.7);
+    }
     body {
-      background-color: #121212;
-      color: white;
-      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      color: var(--text-color);
+      font-family: 'Poppins', sans-serif;
       text-align: center;
       margin: 0;
       padding: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
     }
-
     .container {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 80vh; /* Se ajusta la altura para que no quede tan abajo */
+      height: 100vh;
+      animation: fadeIn 1s ease-in-out;
     }
-
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
     .title {
-      font-size: 28px;
-      font-weight: bold;
+      font-size: 32px;
       margin-bottom: 20px;
+      line-height: 1.2;
+      font-weight: 600;
     }
-
     .button-container {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      width: 90%;
-      max-width: 350px;
+      gap: 20px;
+      width: 80%;
+      max-width: 400px;
     }
-
+    .button-wrapper {
+      position: relative;
+    }
     .button {
-      background: linear-gradient(145deg, #1e1e1e, #292929);
-      padding: 14px;
-      border-radius: 10px;
+      background-color: var(--secondary-color);
+      padding: 15px 25px;
+      border-radius: 12px;
       text-decoration: none;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      transition: all 0.3s ease;
-      box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+      color: var(--text-color);
+      font-size: 18px;
+      transition: transform 0.3s, background-color 0.3s;
+      box-shadow: var(--button-shadow);
       display: block;
     }
-
     .button:hover {
-      background: linear-gradient(145deg, #292929, #333);
+      background-color: var(--hover-color);
       transform: scale(1.05);
     }
-
-    /* Ícono de información */
+    .button:focus {
+      outline: 2px solid var(--primary-color);
+    }
+    .button-info {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: #666;
+      color: #fff;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .button-info:hover {
+      background-color: #555;
+    }
+    .button-info:focus {
+      outline: 2px solid var(--primary-color);
+    }
+    /* Movemos el botón de info global un poco hacia arriba */
     .info-icon {
       position: fixed;
-      bottom: 60px;
-      right: 15px;
-      background-color: #007BFF;
-      width: 45px;
-      height: 45px;
+      bottom: 80px;
+      right: 20px;
+      background-color: var(--primary-color);
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 22px;
-      font-weight: bold;
-      color: white;
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+      font-size: 20px;
+      box-shadow: var(--button-shadow);
+      z-index: 103;
     }
-
-    .popup {
-      position: fixed;
-      bottom: 110px;
-      right: 15px;
-      background-color: #333;
-      color: white;
-      padding: 12px;
-      border-radius: 10px;
-      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-      max-width: 280px;
+    /* Modal overlay */
+    .modal-overlay {
       display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--modal-bg);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      animation: fadeInModal 0.3s ease-in-out;
+    }
+    @keyframes fadeInModal {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .modal {
+      background-color: var(--secondary-color);
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: var(--button-shadow);
+      max-width: 400px;
+      width: 90%;
       text-align: left;
-      font-size: 13px;
+      position: relative;
     }
-
-    .popup button {
-      background-color: #007BFF;
-      color: white;
+    .modal h2 {
+      margin-top: 0;
+      font-size: 20px;
+      font-weight: 600;
+    }
+    .modal p {
+      font-size: 14px;
+      line-height: 1.5;
+      margin: 10px 0;
+    }
+    .modal button.close-modal {
+      background-color: var(--primary-color);
+      color: var(--text-color);
       border: none;
-      padding: 6px 10px;
-      border-radius: 6px;
+      padding: 8px 12px;
+      border-radius: 8px;
       cursor: pointer;
-      font-size: 13px;
-      margin-top: 8px;
+      font-size: 14px;
+      transition: background-color 0.3s;
+      position: absolute;
+      top: 10px;
+      right: 10px;
     }
-
-    .popup button:hover {
+    .modal button.close-modal:hover {
       background-color: #0056b3;
     }
-
-    /* Estilo del contacto de Telegram */
     .footer {
+      position: fixed;
+      bottom: 20px;
       width: 100%;
-      background-color: #1e1e1e;
-      padding: 10px 5px;
       text-align: center;
       font-size: 14px;
-      font-weight: bold;
-      position: fixed;
-      bottom: 0;
+      color: var(--text-color);
+      z-index: 102;
+      line-height: 1.4;
     }
-
     .footer a {
-      color: #007BFF;
+      color: var(--link-color);
       text-decoration: none;
-      font-weight: bold;
+      transition: color 0.3s;
     }
-
     .footer a:hover {
-      text-decoration: underline;
+      color: #66b3ff;
     }
-
+    /* Responsive para pantallas pequeñas */
+    @media (max-width: 600px) {
+      .title {
+        font-size: 28px;
+      }
+      .button {
+        font-size: 16px;
+        padding: 12px 20px;
+      }
+    }
   </style>
 </head>
 <body>
+  <!-- ===================== HTML ===================== -->
   <div class="container">
-    <h1 class="title">Herramientas GUARD-IA</h1>
-    
+    <!-- Se ha actualizado el título para quitar el coche y dejar solo el escudo -->
+    <h1 class="title">Herramientas<br>GUARD-IA 🛡</h1>
     <div class="button-container">
-      <a href="https://chatgpt.com/g/g-6766e58171cc81918eb92f23b79f66ae-guard-ia" class="button" target="_blank">
-        🤖 ChatGPT GUARD-IA
-      </a>
-      <a href="herramientas-guardia/calculadora-de-drogas/index.html" class="button" target="_self">
-        🧮 Calculadora de Drogas
-      </a>
-      <a href="herramientas-guardia/bloc-de-notas/index.html" class="button" target="_self">
-        📝 Bloc de Notas
-      </a>
+      <div class="button-wrapper">
+        <a href="https://chatgpt.com/g/g-6766e58171cc81918eb92f23b79f66ae-guard-ia" class="button" target="_blank" aria-label="ChatGPT GUARD-IA">
+          🤖 ChatGPT GUARD-IA
+        </a>
+        <span class="button-info" data-title="ChatGPT GUARD-IA" data-text="Al hacer clic, serás redirigido a una interfaz web de ChatGPT para interactuar con GPT GUARD-IA." tabindex="0" aria-label="Más información sobre ChatGPT GUARD-IA" onclick="showButtonInfo(this)">i</span>
+      </div>
+      <div class="button-wrapper">
+        <a href="herramientas-guardia/calculadora-de-drogas/index.html" class="button" target="_self" aria-label="Calculadora de Drogas">
+          💊 Calculadora de Drogas
+        </a>
+        <span class="button-info" data-title="Calculadora de Drogas" data-text="Serás redirigido a la Calculadora de Drogas. La información ofrecida es meramente orientativa, por lo que es responsabilidad del usuario corroborarla." tabindex="0" aria-label="Más información sobre Calculadora de Drogas" onclick="showButtonInfo(this)">i</span>
+      </div>
+      <div class="button-wrapper">
+        <a href="herramientas-guardia/bloc-de-notas/index.html" class="button" target="_self" aria-label="Bloc de Notas">
+          📝 Bloc de Notas
+        </a>
+        <span class="button-info" data-title="Bloc de Notas" data-text="Accederás a un bloc de notas digital. La información se almacena únicamente en tu dispositivo, permitiéndote guardar o compartir el contenido sin enviarlo a servidores." tabindex="0" aria-label="Más información sobre Bloc de Notas" onclick="showButtonInfo(this)">i</span>
+      </div>
     </div>
   </div>
 
-  <!-- Ícono de información -->
-  <div class="info-icon" onclick="togglePopup()">i</div>
+  <!-- Icono de información global -->
+  <div class="info-icon" tabindex="0" aria-label="Información general" onclick="showModal('Información', 'Esta herramienta no almacena información en servidores. Toda la información se guarda localmente en tu dispositivo y puede eliminarse cuando lo decidas, garantizando tu privacidad.')">i</div>
 
-  <!-- Popup emergente -->
-  <div class="popup" id="popup">
-    <p>
-      Esta herramienta no almacena información, se mantiene en su almacenamiento local y se elimina cuando usted así lo desee.
-    </p>
-    <button onclick="togglePopup()">Cerrar</button>
+  <!-- Modal overlay para popups de información -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <button class="close-modal" onclick="closeModal()" aria-label="Cerrar modal">✖</button>
+      <h2 id="modalTitle">Información</h2>
+      <p id="modalText">Texto de información</p>
+    </div>
   </div>
-
-  <!-- Contacto en la parte inferior siempre visible -->
+  
+  <!-- Footer de contacto en dos líneas -->
   <div class="footer">
-    📩 Contacto para dudas o sugerencias: 
-    <a href="https://t.me/OnefraGT" target="_blank">@OnefraGT</a>
+    📩 Contacto con el creador<br> de la herramienta <a href="https://t.me/OnefraGT" target="_blank" aria-label="Contacto con el creador de la herramienta">@OnefraGT</a>
   </div>
 
+  <!-- ===================== JavaScript ===================== -->
   <script>
-    function togglePopup() {
-      var popup = document.getElementById("popup");
-      popup.style.display = (popup.style.display === "block") ? "none" : "block";
+    function showModal(title, text) {
+      document.getElementById("modalTitle").innerText = title;
+      document.getElementById("modalText").innerText = text;
+      document.getElementById("modalOverlay").style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("modalOverlay").style.display = "none";
+    }
+
+    function showButtonInfo(element) {
+      const title = element.getAttribute("data-title");
+      const text = element.getAttribute("data-text");
+      showModal(title, text);
     }
   </script>
 </body>
