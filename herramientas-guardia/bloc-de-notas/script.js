@@ -5,10 +5,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const saveNoteButton = document.getElementById('saveNoteButton');
   const videoContainer = document.getElementById('videoContainer');
   const video = document.getElementById('video');
+  const capturePhotoButton = document.getElementById('capturePhotoButton');
   const photoPreviewContainer = document.getElementById('photoPreviewContainer');
   const photoPreview = document.getElementById('photoPreview');
-  const retakePhotoButton = document.getElementById('retakePhotoButton');
   const photoActions = document.getElementById('photoActions');
+  const retakePhotoButton = document.getElementById('retakePhotoButton');
+  const deletePhotoButton = document.getElementById('deletePhotoButton');
 
   let cameraStream = null;
   let tempPhotoData = '';
@@ -22,7 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
         video.srcObject = stream;
         video.play();
         videoContainer.style.display = 'block';
-        activateCameraButton.textContent = "📷";
+        capturePhotoButton.style.display = 'block';
+        activateCameraButton.style.display = 'none';
       })
       .catch(err => {
         console.error("Error al acceder a la cámara:", err);
@@ -30,22 +33,47 @@ document.addEventListener('DOMContentLoaded', () => {
       });
   }
 
-  // Capturar foto con preprocesamiento para mejorar OCR
+  // Función de preprocesamiento de imagen para mejorar el OCR
+  function preprocessImage(canvas) {
+    const context = canvas.getContext('2d');
+    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
+    const threshold = 128; // Umbral: ajusta según sea necesario
+
+    for (let i = 0; i < data.length; i += 4) {
+      const r = data[i];
+      const g = data[i + 1];
+      const b = data[i + 2];
+      const gray = 0.299 * r + 0.587 * g + 0.114 * b;
+      const binary = gray > threshold ? 255 : 0;
+      data[i] = data[i + 1] = data[i + 2] = binary;
+    }
+    context.putImageData(imageData, 0, 0);
+    return canvas.toDataURL('image/png');
+  }
+
+  // Capturar foto al pulsar el botón circular
   function capturePhoto() {
     const canvas = document.createElement('canvas');
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
     const context = canvas.getContext('2d');
-    // Aplicar filtro de escala de grises y aumentar contraste para mejorar OCR
     context.filter = 'grayscale(100%) contrast(150%)';
     context.drawImage(video, 0, 0, canvas.width, canvas.height);
-    tempPhotoData = canvas.toDataURL('image/png');
+
+    // Preprocesar imagen para OCR
+    tempPhotoData = preprocessImage(canvas);
+
     photoPreview.src = tempPhotoData;
     photoPreviewContainer.style.display = 'block';
-    // Mostrar el botón de rehacer foto
-    photoActions.style.display = 'block';
+    videoContainer.style.display = 'none';
+    capturePhotoButton.style.display = 'none';
+    photoActions.style.display = 'flex';
 
-    // Procesar imagen con OCR (Tesseract.js)
+    // Detener la cámara
+    stopCamera();
+
+    // Procesar imagen con OCR
     Tesseract.recognize(tempPhotoData, 'spa', { logger: m => console.log(m) })
       .then(({ data: { text } }) => {
         console.log("Resultado OCR:", text);
@@ -63,30 +91,41 @@ document.addEventListener('DOMContentLoaded', () => {
       cameraStream = null;
     }
     videoContainer.style.display = 'none';
-    activateCameraButton.textContent = "📷";
+    capturePhotoButton.style.display = 'none';
+    activateCameraButton.style.display = 'block';
   }
 
-  // Evento para el botón de cámara: si la cámara no está activa, se inicia; si ya está activa, se captura la imagen y se detiene.
+  // Activar la cámara al pulsar el botón azul
   activateCameraButton.addEventListener('click', () => {
     if (!cameraStream) {
       startCamera();
-    } else {
-      capturePhoto();
-      stopCamera();
     }
+  });
+
+  // Evento para el botón circular de capturar foto
+  capturePhotoButton.addEventListener('click', () => {
+    capturePhoto();
   });
 
   // Evento para rehacer la foto
   retakePhotoButton.addEventListener('click', () => {
-    // Borrar la foto actual y ocultar la vista previa y acciones
     tempPhotoData = '';
     photoPreviewContainer.style.display = 'none';
     photoActions.style.display = 'none';
-    // Reactivar la cámara para capturar otra foto
     startCamera();
   });
 
-  // Función para autocompletar campos usando el OCR (se pueden ajustar las expresiones según sea necesario)
+  // Evento para eliminar la foto
+  deletePhotoButton.addEventListener('click', () => {
+    if (confirm("¿Estás seguro de eliminar la foto?")) {
+      tempPhotoData = '';
+      photoPreviewContainer.style.display = 'none';
+      photoActions.style.display = 'none';
+      activateCameraButton.style.display = 'block';
+    }
+  });
+
+  // Función para autocompletar campos usando OCR
   function autoCompletarCampos(ocrText) {
     const docMatch = ocrText.match(/\d{8,}/);
     if (docMatch) {
@@ -96,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (nameMatch) {
       document.getElementById('fullName').value = nameMatch[0];
     }
-    // Agrega más lógica de extracción según el formato del documento
+    // Más lógica de extracción según formato del documento
   }
 
   // Guardar la nota
@@ -122,18 +161,17 @@ document.addEventListener('DOMContentLoaded', () => {
     localStorage.setItem('notes', JSON.stringify(notes));
     displayNotes();
 
-    // Reiniciar formulario y limpiar imagen
     noteForm.reset();
     tempPhotoData = '';
     photoPreviewContainer.style.display = 'none';
     photoActions.style.display = 'none';
-    activateCameraButton.textContent = "📷";
+    activateCameraButton.style.display = 'block';
     alert("Nota guardada exitosamente.");
 
     lastSavedNote = noteData;
   }
 
-  // Compartir nota usando la Web Share API
+  // Compartir nota usando la Web Share API, incluyendo la foto si está disponible
   function shareNote(noteData) {
     const shareText = `Nota Policial:
 Documento: ${noteData.documentNumber || 'N/A'}
@@ -143,17 +181,48 @@ Padres: ${noteData.parentsName || 'N/A'}
 Domicilio: ${noteData.address || 'N/A'}
 Teléfono: ${noteData.phone || 'N/A'}
 Hechos: ${noteData.facts || 'N/A'}`;
-    if (navigator.share) {
-      navigator.share({
-        title: 'Nota Policial',
-        text: shareText
-      }).then(() => {
-        console.log('Nota compartida exitosamente.');
-      }).catch(err => {
-        console.error('Error al compartir:', err);
-      });
+    
+    if (noteData.photoUrl) {
+      // Convertir dataURL a Blob y luego a File
+      fetch(noteData.photoUrl)
+        .then(res => res.blob())
+        .then(blob => {
+          const file = new File([blob], 'nota.png', { type: 'image/png' });
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            navigator.share({
+              title: 'Nota Policial',
+              text: shareText,
+              files: [file]
+            }).then(() => {
+              console.log('Nota compartida exitosamente.');
+            }).catch(err => {
+              console.error('Error al compartir:', err);
+            });
+          } else {
+            // Fallback a compartir solo texto
+            navigator.share({
+              title: 'Nota Policial',
+              text: shareText
+            }).then(() => {
+              console.log('Nota compartida exitosamente.');
+            }).catch(err => {
+              console.error('Error al compartir:', err);
+            });
+          }
+        });
     } else {
-      alert("Tu navegador no soporta la función de compartir.");
+      if (navigator.share) {
+        navigator.share({
+          title: 'Nota Policial',
+          text: shareText
+        }).then(() => {
+          console.log('Nota compartida exitosamente.');
+        }).catch(err => {
+          console.error('Error al compartir:', err);
+        });
+      } else {
+        alert("Tu navegador no soporta la función de compartir.");
+      }
     }
   }
 
