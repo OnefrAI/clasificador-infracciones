@@ -19,7 +19,6 @@
       <input type="text" id="fullName" name="fullName">
 
       <label for="birthdate">Fecha de nacimiento:</label>
-      <!-- Se agrega inputmode y pattern para activar el teclado numérico en móviles -->
       <input type="text" id="birthdate" name="birthdate" placeholder="DD-MM-AAAA" inputmode="numeric" pattern="[0-9-]*">
 
       <label for="parentsName">Nombre del padre y la madre:</label>
@@ -41,19 +40,22 @@
          <button type="submit" id="saveNoteButton" class="btn save-btn">Guardar Nota</button>
       </div>
       
-      <!-- Contenedor para el video de la cámara (oculto inicialmente) -->
-      <div id="videoContainer" style="display: none;">
+      <!-- Contenedor para el video de la cámara -->
+      <div id="videoContainer">
         <video id="video" autoplay></video>
+        <!-- Botón circular para capturar foto -->
+        <button type="button" id="capturePhotoButton">📸</button>
       </div>
       
-      <!-- Vista previa de la foto capturada (oculta inicialmente) -->
+      <!-- Vista previa de la foto capturada -->
       <div id="photoPreviewContainer" style="display: none;">
         <img id="photoPreview" src="" alt="Foto capturada">
       </div>
       
-      <!-- Contenedor para acciones sobre la foto (botón rehacer foto) -->
-      <div id="photoActions" style="display: none;">
+      <!-- Contenedor para acciones sobre la foto (Rehacer y Eliminar) -->
+      <div id="photoActions">
         <button type="button" id="retakePhotoButton" class="btn retake-btn">Rehacer Foto</button>
+        <button type="button" id="deletePhotoButton" class="btn delete-btn">Eliminar Foto</button>
       </div>
     </form>
 
