@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marca de agua GUARD-IA 💧</title>
+  <!-- Google Fonts: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Marca de agua GUARD-IA 💧</h1>
+      <button id="infoBtn" class="btn info-btn" title="¿Qué hace esta herramienta?">i</button>
+    </header>
+    <input type="text" id="watermarkText" placeholder="Texto de marca de agua" value="GUARD-IA">
+    <div class="buttons">
+      <button id="uploadBtn" class="btn">Subir Documento</button>
+      <button id="cameraBtn" class="btn">Tomar Foto</button>
+    </div>
+    <input type="file" id="fileInput" accept="application/pdf,image/*">
+    
+    <!-- Sección de cámara -->
+    <div id="cameraSection" class="hidden">
+      <video id="videoPreview" autoplay playsinline></video>
+      <br>
+      <button id="captureBtn" class="btn capture-btn">📸 Capturar</button>
+    </div>
+    
+    <!-- Vista previa -->
+    <div id="previewSection" class="hidden">
+      <canvas id="previewCanvas"></canvas>
+      <div class="action-buttons">
+        <button id="retakeBtn" class="btn retake-btn">🔄 Rehacer</button>
+        <button id="shareBtn" class="btn share-btn">🔗 Compartir</button>
+        <a id="downloadLink" href="#" download>
+          <button class="btn download-btn">⬇️ Descargar</button>
+        </a>
+      </div>
+    </div>
+    
+    <div class="footer">
+      <p>Contactar con: <a href="https://t.me/OnefraGT" target="_blank">@OnefraGT</a></p>
+    </div>
+  </div>
+  
+  <!-- Modal de Información -->
+  <div id="infoModal" class="modal hidden">
+    <div class="modal-content">
+      <span id="closeModal" class="close-btn">&times;</span>
+      <h2>Marca de agua GUARD-IA</h2>
+      <p>
+        Esta herramienta le permite aplicar una marca de agua personalizada a sus documentos o fotos.
+      </p>
+      <p>
+        Si no modifica el texto, se usará por defecto "GUARD-IA". Si escribe otro, se utilizará ese.
+      </p>
+      <p>
+        Todo se procesa localmente en su navegador, sin enviarse a servidores. Utilizar una marca de agua es recomendable para proteger la autenticidad de sus documentos y evitar usos fraudulentos.
+      </p>
+    </div>
+  </div>
+  
+  <script src="script.js"></script>
+</body>
+</html>
