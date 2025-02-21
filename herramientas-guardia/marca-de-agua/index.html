@@ -12,23 +12,37 @@
   <div class="container">
     <header>
       <h1>Marca de agua GUARD-IA 💧</h1>
-      <button id="infoBtn" class="btn info-btn" title="¿Qué hace esta herramienta?">i</button>
+      <!-- Se ha eliminado el botón de información -->
     </header>
-    <input type="text" id="watermarkText" placeholder="Texto de marca de agua" value="GUARD-IA">
+    
+    <!-- Campo de texto para la marca de agua -->
+    <input type="text" id="watermarkText" placeholder="Texto de marca de agua" value="Documento Protegido con GUARD-IA">
+
+    <!-- Controles de personalización en línea -->
+    <div class="controls">
+      <label for="colorPicker">Color:</label>
+      <input type="color" id="colorPicker" value="#C93B9D">
+      <label for="opacityRange">Opacidad:</label>
+      <input type="range" id="opacityRange" min="0.05" max="1" step="0.05" value="0.15">
+    </div>
+
     <div class="buttons">
       <button id="uploadBtn" class="btn">Subir Documento</button>
+      <!-- Botón único para iniciar la cámara y capturar -->
       <button id="cameraBtn" class="btn">Tomar Foto</button>
     </div>
     <input type="file" id="fileInput" accept="application/pdf,image/*">
     
     <!-- Sección de cámara -->
     <div id="cameraSection" class="hidden">
-      <video id="videoPreview" autoplay playsinline></video>
-      <br>
-      <button id="captureBtn" class="btn capture-btn">📸 Capturar</button>
+      <div class="camera-container">
+        <video id="videoPreview" autoplay playsinline></video>
+        <!-- Canvas superpuesto para visualizar la marca de agua en tiempo real -->
+        <canvas id="overlayCanvas"></canvas>
+      </div>
     </div>
     
-    <!-- Vista previa -->
+    <!-- Vista previa (resultado final) -->
     <div id="previewSection" class="hidden">
       <canvas id="previewCanvas"></canvas>
       <div class="action-buttons">
@@ -45,23 +59,10 @@
     </div>
   </div>
   
-  <!-- Modal de Información -->
-  <div id="infoModal" class="modal hidden">
-    <div class="modal-content">
-      <span id="closeModal" class="close-btn">&times;</span>
-      <h2>Marca de agua GUARD-IA</h2>
-      <p>
-        Esta herramienta le permite aplicar una marca de agua personalizada a sus documentos o fotos.
-      </p>
-      <p>
-        Si no modifica el texto, se usará por defecto "GUARD-IA". Si escribe otro, se utilizará ese.
-      </p>
-      <p>
-        Todo se procesa localmente en su navegador, sin enviarse a servidores. Utilizar una marca de agua es recomendable para proteger la autenticidad de sus documentos y evitar usos fraudulentos.
-      </p>
-    </div>
-  </div>
+  <!-- Modal de Información se ha eliminado -->
   
+  <!-- Polyfill para WebRTC (para mayor compatibilidad) -->
+  <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
