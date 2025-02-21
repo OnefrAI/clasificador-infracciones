@@ -6,6 +6,8 @@
   --text-color: #fff;
   --button-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
   --modal-bg: rgba(0, 0, 0, 0.7);
+  --btn-min-width: 150px;
+  --btn-min-height: 45px;
 }
 
 body {
@@ -39,23 +41,7 @@ h1 {
   margin-bottom: 20px;
 }
 
-.info-btn {
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background-color: var(--secondary-color);
-  border: none;
-  color: var(--text-color);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
-}
+/* Se eliminó el estilo del botón de información */
 
 input[type="text"] {
   padding: 10px;
@@ -65,6 +51,33 @@ input[type="text"] {
   width: 80%;
   max-width: 400px;
   font-size: 16px;
+}
+
+/* Controles de personalización en línea */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  gap: 10px;
+}
+
+.controls label {
+  font-size: 14px;
+  color: var(--text-color);
+}
+
+.controls input[type="color"] {
+  width: 30px;
+  height: 30px;
+  border: none;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.controls input[type="range"] {
+  width: 150px;
 }
 
 .buttons {
@@ -87,6 +100,8 @@ input[type="text"] {
   box-shadow: var(--button-shadow);
   transition: background-color 0.3s, transform 0.3s;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+  min-width: var(--btn-min-width);
+  min-height: var(--btn-min-height);
 }
 
 .btn:hover {
@@ -94,8 +109,9 @@ input[type="text"] {
   transform: scale(1.05);
 }
 
-.capture-btn {
-  background-color: #007aff;
+/* Clase para el botón en modo captura (azul) */
+.capture-mode {
+  background-color: #007aff !important;
 }
 
 .retake-btn {
@@ -133,10 +149,29 @@ input[type="text"] {
   padding: 10px 15px;
 }
 
+/* Contenedor para la cámara con visor y overlay */
+.camera-container {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
 video {
+  width: 100%;
   border: 2px solid #333;
   border-radius: 8px;
-  max-width: 100%;
+  display: block;
+}
+
+#overlayCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
 }
 
 .footer {
@@ -172,6 +207,8 @@ video {
   text-align: left;
   position: relative;
 }
+
+/* Se han eliminado estilos del botón info */
 
 .close-btn {
   position: absolute;
