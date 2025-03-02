@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -6,14 +5,15 @@
   <title>Herramientas GUARD-IA</title>
   <!-- Google Fonts: Poppins -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
     /* ===================== CSS ===================== */
     :root {
       --bg-color: #121212;
-      --bg-gradient-start: #121212;
-      --bg-gradient-end: #1a1a1a;
-      --primary-color: #007BFF;
-      --secondary-color: #333;
+      --bg-gradient-start: #2c3e50;
+      --bg-gradient-end: #34495e;
+      --primary-color: #3498db;
+      --secondary-color: #2c3e50;
       --hover-color: #444;
       --text-color: #fff;
       --link-color: #00f;
@@ -27,6 +27,7 @@
       text-align: center;
       margin: 0;
       padding: 0;
+      overflow-x: hidden;
     }
     .container {
       min-height: 100vh;
@@ -34,61 +35,92 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: flex-start; /* Alinea el contenido al inicio para evitar que el footer quede en medio en pantallas grandes */
     }
     .title {
       font-size: 32px;
       margin-bottom: 20px;
       line-height: 1.2;
       font-weight: 600;
+      color: var(--text-color);
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     }
     .button-container {
       display: flex;
       flex-direction: column;
       gap: 20px;
       width: 80%;
-      max-width: 400px;
+      max-width: 500px;
       margin-bottom: 40px;
     }
     .button-wrapper {
       position: relative;
+      overflow: hidden; /* Para que el efecto de borde solo se vea dentro del botón */
     }
     .button {
+      position: relative; /* Para el efecto de borde animado */
       background-color: var(--secondary-color);
       padding: 15px 25px;
       border-radius: 12px;
       text-decoration: none;
       color: var(--text-color);
       font-size: 18px;
-      transition: transform 0.3s, background-color 0.3s;
+      transition: transform 0.3s, background-color 0.3s, box-shadow 0.3s;
       box-shadow: var(--button-shadow);
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      overflow: hidden;
+      z-index: 1;
     }
     .button:hover {
       background-color: var(--hover-color);
-      transform: scale(1.05);
+      transform: translateY(-3px);
+      box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6);
     }
     .button:focus {
       outline: 2px solid var(--primary-color);
+    }
+    .button::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s;
+        z-index: 2;
+    }
+
+    .button:hover::before {
+        left: 100%;
+    }
+    .button i {
+      font-size: 20px; /* Tamaño del icono */
     }
     .button-info {
       position: absolute;
       right: 10px;
       top: 50%;
       transform: translateY(-50%);
-      background-color: #666;
+      background-color: rgba(0, 0, 0, 0.6);
       color: #fff;
       border-radius: 50%;
-      width: 20px;
-      height: 20px;
-      font-size: 14px;
+      width: 25px;
+      height: 25px;
+      font-size: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: background-color 0.3s;
+      transition: background-color 0.3s, transform 0.3s;
+      z-index: 3;
     }
     .button-info:hover {
-      background-color: #555;
+      background-color: rgba(0, 0, 0, 0.8);
+      transform: scale(1.1) scale(1.1);
     }
     .button-info:focus {
       outline: 2px solid var(--primary-color);
@@ -99,21 +131,30 @@
       top: 20px;
       right: 20px;
       background-color: var(--primary-color);
-      width: 40px;
-      height: 40px;
+      width: 45px;
+      height: 45px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 20px;
+      font-size: 22px;
       box-shadow: var(--button-shadow);
       z-index: 103;
+      transition: background-color 0.3s, transform 0.3s;
     }
-    /* Footer de contacto */
+    .info-icon:hover {
+      background-color: #2980b9;
+      transform: scale(1.1);
+    }
+    /* Estilo para el footer de contacto */
     footer {
-      margin-top: 20px;
+      margin-top: auto; /* Empuja el footer hacia abajo */
       padding: 20px;
+      text-align: center;
+      color: #ddd;
+      background-color: rgba(0, 0, 0, 0.3);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
     footer p {
       font-size: 16px;
@@ -121,9 +162,11 @@
     footer a {
       color: var(--primary-color);
       text-decoration: none;
+      transition: color 0.3s;
     }
     footer a:hover {
       text-decoration: underline;
+      color: #fff;
     }
     /* Modal overlay */
     .modal-overlay {
@@ -147,123 +190,143 @@
       padding: 20px 30px;
       border-radius: 12px;
       box-shadow: var(--button-shadow);
-      max-width: 400px;
+      max-width: 500px;
       width: 90%;
       text-align: left;
       position: relative;
     }
     .modal h2 {
       margin-top: 0;
-      font-size: 20px;
+      font-size: 24px;
       font-weight: 600;
+      color: var(--text-color);
     }
     .modal p {
-      font-size: 14px;
-      line-height: 1.5;
+      font-size: 16px;
+      line-height: 1.6;
       margin: 10px 0;
+      color: #eee;
     }
     .modal button.close-modal {
       background-color: var(--primary-color);
       color: var(--text-color);
       border: none;
-      padding: 8px 12px;
+      padding: 10px 16px;
       border-radius: 8px;
       cursor: pointer;
-      font-size: 14px;
-      transition: background-color 0.3s;
+      font-size: 16px;
+      transition: background-color 0.3s, transform 0.3s;
       position: absolute;
       top: 10px;
       right: 10px;
     }
     .modal button.close-modal:hover {
-      background-color: #0056b3;
+      background-color: #2980b9;
+      transform: scale(1.05);
     }
-    /* Responsive adjustments para móviles */
+    /* Estilos responsivos para dispositivos móviles */
     @media (max-width: 600px) {
       .container {
-        height: 100vh;
-        justify-content: flex-start;
-        padding: 10px 5%;
+        padding: 20px 5%;
       }
       .title {
-        font-size: 24px;
-        margin-bottom: 5px;
+        font-size: 28px;
+        margin-bottom: 20px;
       }
       .button-container {
-        gap: 10px;
+        gap: 15px;
         width: 100%;
-        max-width: none;
-        margin-top: 5px;
       }
       .button {
         font-size: 16px;
-        padding: 12px 15px;
+        padding: 12px 20px;
+      }
+      .button i {
+        font-size: 18px;
+      }
+      .button-info {
+        width: 30px;
+        height: 30px;
+        font-size: 14px;
       }
       .info-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
         top: 10px;
         right: 10px;
-        width: 35px;
-        height: 35px;
-        font-size: 16px;
+      }
+      .modal {
+        padding: 15px 20px;
+      }
+      .modal h2 {
+        font-size: 22px;
+      }
+      .modal p {
+        font-size: 15px;
+      }
+      .modal button.close-modal {
+        font-size: 15px;
+        padding: 8px 14px;
       }
       footer {
-        padding: 10px 5%;
+        padding: 15px 5%;
         font-size: 14px;
-        text-align: center;
       }
     }
   </style>
 </head>
 <body>
+  <!-- ===================== HTML ===================== -->
   <div class="container">
-    <!-- Título -->
-    <h1 class="title">Herramientas<br>GUARD-IA 🛡</h1>
-    <!-- Botones principales -->
+    <!-- Título actualizado -->
+    <h1 class="title">Herramientas<br>GUARD-IA </h1>
     <div class="button-container">
       <div class="button-wrapper">
         <a href="https://chatgpt.com/g/g-6766e58171cc81918eb92f23b79f66ae-guard-ia" class="button" target="_blank" aria-label="ChatGPT GUARD-IA">
-          🤖 ChatGPT GUARD-IA
+          <i class="fas fa-robot"></i> ChatGPT GUARD-IA
         </a>
         <span class="button-info" data-title="ChatGPT GUARD-IA" data-text="Al hacer clic, serás redirigido a una interfaz web de ChatGPT para interactuar con GPT GUARD-IA." tabindex="0" aria-label="Más información sobre ChatGPT GUARD-IA" onclick="showButtonInfo(this)">i</span>
       </div>
       <div class="button-wrapper">
         <a href="herramientas-guardia/calculadora-de-drogas/index.html" class="button" target="_self" aria-label="Calculadora de Drogas">
-          💊 Calculadora de Drogas
+          <i class="fas fa-calculator"></i> Calculadora de Drogas
         </a>
         <span class="button-info" data-title="Calculadora de Drogas" data-text="Serás redirigido a la Calculadora de Drogas. La información ofrecida es meramente orientativa, por lo que es responsabilidad del usuario corroborarla." tabindex="0" aria-label="Más información sobre Calculadora de Drogas" onclick="showButtonInfo(this)">i</span>
       </div>
       <div class="button-wrapper">
         <a href="herramientas-guardia/bloc-de-notas/index.html" class="button" target="_self" aria-label="Bloc de Notas">
-          📝 Bloc de Notas
+          <i class="fas fa-sticky-note"></i> Bloc de Notas
         </a>
         <span class="button-info" data-title="Bloc de Notas" data-text="Accederás a un bloc de notas digital. La información se almacena únicamente en tu dispositivo, permitiéndote guardar o compartir el contenido sin enviarlo a servidores." tabindex="0" aria-label="Más información sobre Bloc de Notas" onclick="showButtonInfo(this)">i</span>
       </div>
       <div class="button-wrapper">
         <a href="herramientas-guardia/marca-de-agua/index.html" class="button" target="_self" aria-label="Marca de Agua">
-          💧 Marca de Agua
+          <i class="fas fa-tint"></i> Marca de Agua
         </a>
         <span class="button-info" data-title="Marca de Agua" data-text="Añade una marca de agua a tus imágenes para proteger tus derechos de autor o personalizar tus fotos." tabindex="0" aria-label="Más información sobre Marca de Agua" onclick="showButtonInfo(this)">i</span>
       </div>
     </div>
   </div>
 
-  <!-- Botón de info en la esquina superior derecha -->
-  <div class="info-icon" tabindex="0" aria-label="Información general" onclick="showModal('Información', 'Esta herramienta no almacena información en servidores. Toda la información se guarda localmente en tu dispositivo y puede eliminarse cuando lo decidas, garantizando tu privacidad.')">i</div>
+  <!-- Botón de información en la parte superior derecha -->
+  <div class="info-icon" tabindex="0" aria-label="Información general" onclick="showModal('Información', 'Esta herramienta no almacena información en servidores. Toda la información se guarda localmente en tu dispositivo y puede eliminarse cuando lo decidas, garantizando tu privacidad.')"><i class="fas fa-info"></i></div>
 
-  <!-- Footer de contacto -->
+  <!-- Footer de contacto con únicamente el handle de Telegram -->
   <footer>
     <p>Contacta con el creador: <a href="https://t.me/OnefraGT" target="_blank">@OnefraGT</a></p>
   </footer>
 
-  <!-- Modal overlay para información -->
+  <!-- Modal overlay para popups de información -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
-      <button class="close-modal" onclick="closeModal()" aria-label="Cerrar modal">✖</button>
+      <button class="close-modal" onclick="closeModal()" aria-label="Cerrar modal"><i class="fas fa-times"></i></button>
       <h2 id="modalTitle">Información</h2>
       <p id="modalText">Texto de información</p>
     </div>
   </div>
-
+  
+  <!-- ===================== JavaScript ===================== -->
   <script>
     function showModal(title, text) {
       document.getElementById("modalTitle").innerText = title;
