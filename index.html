@@ -29,16 +29,11 @@
       padding: 0;
     }
     .container {
+      min-height: 100vh;
+      padding-top: 40px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      height: 100vh;
-      animation: fadeIn 1s ease-in-out;
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
     }
     .title {
       font-size: 32px;
@@ -52,6 +47,7 @@
       gap: 20px;
       width: 80%;
       max-width: 400px;
+      margin-bottom: 40px;
     }
     .button-wrapper {
       position: relative;
@@ -97,10 +93,10 @@
     .button-info:focus {
       outline: 2px solid var(--primary-color);
     }
-    /* Movemos el botón de info global un poco hacia arriba */
+    /* Botón de información en la parte superior derecha */
     .info-icon {
       position: fixed;
-      bottom: 80px;
+      top: 20px;
       right: 20px;
       background-color: var(--primary-color);
       width: 40px;
@@ -113,6 +109,21 @@
       font-size: 20px;
       box-shadow: var(--button-shadow);
       z-index: 103;
+    }
+    /* Footer de contacto */
+    footer {
+      margin-top: 20px;
+      padding: 20px;
+    }
+    footer p {
+      font-size: 16px;
+    }
+    footer a {
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
     }
     /* Modal overlay */
     .modal-overlay {
@@ -167,41 +178,47 @@
     .modal button.close-modal:hover {
       background-color: #0056b3;
     }
-    .footer {
-      position: fixed;
-      bottom: 20px;
-      width: 100%;
-      text-align: center;
-      font-size: 14px;
-      color: var(--text-color);
-      z-index: 102;
-      line-height: 1.4;
-    }
-    .footer a {
-      color: var(--link-color);
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-    .footer a:hover {
-      color: #66b3ff;
-    }
-    /* Responsive para pantallas pequeñas */
+    /* Responsive adjustments para móviles */
     @media (max-width: 600px) {
+      .container {
+        height: 100vh;
+        justify-content: flex-start;
+        padding: 10px 5%;
+      }
       .title {
-        font-size: 28px;
+        font-size: 24px;
+        margin-bottom: 5px;
+      }
+      .button-container {
+        gap: 10px;
+        width: 100%;
+        max-width: none;
+        margin-top: 5px;
       }
       .button {
         font-size: 16px;
-        padding: 12px 20px;
+        padding: 12px 15px;
+      }
+      .info-icon {
+        top: 10px;
+        right: 10px;
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+      }
+      footer {
+        padding: 10px 5%;
+        font-size: 14px;
+        text-align: center;
       }
     }
   </style>
 </head>
 <body>
-  <!-- ===================== HTML ===================== -->
   <div class="container">
-    <!-- Se ha actualizado el título para quitar el coche y dejar solo el escudo -->
+    <!-- Título -->
     <h1 class="title">Herramientas<br>GUARD-IA 🛡</h1>
+    <!-- Botones principales -->
     <div class="button-container">
       <div class="button-wrapper">
         <a href="https://chatgpt.com/g/g-6766e58171cc81918eb92f23b79f66ae-guard-ia" class="button" target="_blank" aria-label="ChatGPT GUARD-IA">
@@ -230,10 +247,15 @@
     </div>
   </div>
 
-  <!-- Icono de información global -->
+  <!-- Botón de info en la esquina superior derecha -->
   <div class="info-icon" tabindex="0" aria-label="Información general" onclick="showModal('Información', 'Esta herramienta no almacena información en servidores. Toda la información se guarda localmente en tu dispositivo y puede eliminarse cuando lo decidas, garantizando tu privacidad.')">i</div>
 
-  <!-- Modal overlay para popups de información -->
+  <!-- Footer de contacto -->
+  <footer>
+    <p>Contacta con el creador: <a href="https://t.me/OnefraGT" target="_blank">@OnefraGT</a></p>
+  </footer>
+
+  <!-- Modal overlay para información -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
       <button class="close-modal" onclick="closeModal()" aria-label="Cerrar modal">✖</button>
@@ -241,24 +263,16 @@
       <p id="modalText">Texto de información</p>
     </div>
   </div>
-  
-  <!-- Footer de contacto en dos líneas -->
-  <div class="footer">
-    📩 Contacto con el creador<br> de la herramienta <a href="https://t.me/OnefraGT" target="_blank" aria-label="Contacto con el creador de la herramienta">@OnefraGT</a>
-  </div>
 
-  <!-- ===================== JavaScript ===================== -->
   <script>
     function showModal(title, text) {
       document.getElementById("modalTitle").innerText = title;
       document.getElementById("modalText").innerText = text;
       document.getElementById("modalOverlay").style.display = "flex";
     }
-
     function closeModal() {
       document.getElementById("modalOverlay").style.display = "none";
     }
-
     function showButtonInfo(element) {
       const title = element.getAttribute("data-title");
       const text = element.getAttribute("data-text");
