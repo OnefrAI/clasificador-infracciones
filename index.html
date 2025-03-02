@@ -3,39 +3,45 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Herramientas GUARD-IA</title>
-  <!-- Google Fonts: Poppins -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
-    /* ===================== CSS ===================== */
     :root {
       --bg-color: #121212;
-      --bg-gradient-start: #2c3e50;
-      --bg-gradient-end: #34495e;
+      --bg-gradient-start: #1a2980;
+      --bg-gradient-end: #26d0ce;
       --primary-color: #3498db;
-      --secondary-color: #2c3e50;
+      --secondary-color: rgba(44, 62, 80, 0.95);
       --hover-color: #444;
       --text-color: #fff;
       --link-color: #00f;
-      --button-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-      --modal-bg: rgba(0, 0, 0, 0.7);
+      --button-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      --modal-bg: rgba(0, 0, 0, 0.8);
     }
     body {
       background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      background-size: 400% 400%;
       color: var(--text-color);
       font-family: 'Poppins', sans-serif;
-      text-align: center;
       margin: 0;
       padding: 0;
-      overflow-x: hidden;
+      min-height: 100vh;
+      animation: gradientBG 15s ease infinite;
     }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
     .container {
       min-height: 100vh;
       padding-top: 40px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start; /* Alinea el contenido al inicio para evitar que el footer quede en medio en pantallas grandes */
+      justify-content: flex-start; 
     }
     .title {
       font-size: 32px;
@@ -43,7 +49,16 @@
       line-height: 1.2;
       font-weight: 600;
       color: var(--text-color);
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(45deg, #fff, #f0f0f0);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: floatTitle 3s ease-in-out infinite;
+    }
+    @keyframes floatTitle {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
     .button-container {
       display: flex;
@@ -55,11 +70,13 @@
     }
     .button-wrapper {
       position: relative;
-      overflow: hidden; /* Para que el efecto de borde solo se vea dentro del botón */
+      overflow: hidden; 
     }
     .button {
-      position: relative; /* Para el efecto de borde animado */
-      background-color: var(--secondary-color);
+      position: relative; 
+      backdrop-filter: blur(5px);
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       padding: 15px 25px;
       border-radius: 12px;
       text-decoration: none;
@@ -73,32 +90,36 @@
       gap: 10px;
       overflow: hidden;
       z-index: 1;
+      transform-style: preserve-3d;
+      perspective: 1000px;
     }
     .button:hover {
-      background-color: var(--hover-color);
-      transform: translateY(-3px);
-      box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6);
-    }
-    .button:focus {
-      outline: 2px solid var(--primary-color);
-    }
-    .button::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-        transition: left 0.5s;
-        z-index: 2;
+      transform: translateY(-5px) rotateX(10deg);
+      background: rgba(255, 255, 255, 0.2);
+      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
     }
 
-    .button:hover::before {
-        left: 100%;
+    .button::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .button:hover::after {
+      opacity: 1;
+      animation: shine 1.5s ease-in-out infinite;
+    }
+
+    @keyframes shine {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
     }
     .button i {
-      font-size: 20px; /* Tamaño del icono */
+      font-size: 20px; 
     }
     .button-info {
       position: absolute;
@@ -123,7 +144,8 @@
       transform: scale(1.1) scale(1.1);
     }
     .button-info:focus {
-      outline: 2px solid var(--primary-color);
+      outline: none;
+      box-shadow: 0 0 0 2px var(--primary-color);
     }
     /* Botón de información en la parte superior derecha */
     .info-icon {
@@ -142,6 +164,12 @@
       box-shadow: var(--button-shadow);
       z-index: 103;
       transition: background-color 0.3s, transform 0.3s;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.4); }
+      70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(52, 152, 219, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(52, 152, 219, 0); }
     }
     .info-icon:hover {
       background-color: #2980b9;
@@ -149,7 +177,7 @@
     }
     /* Estilo para el footer de contacto */
     footer {
-      margin-top: auto; /* Empuja el footer hacia abajo */
+      margin-top: auto; 
       padding: 20px;
       text-align: center;
       color: #ddd;
@@ -194,6 +222,14 @@
       width: 90%;
       text-align: left;
       position: relative;
+      transform: scale(0.8);
+      opacity: 0;
+      transition: all 0.3s ease-out;
+      backdrop-filter: blur(10px);
+    }
+    .modal-overlay.active .modal {
+      transform: scale(1);
+      opacity: 1;
     }
     .modal h2 {
       margin-top: 0;
@@ -331,10 +367,10 @@
     function showModal(title, text) {
       document.getElementById("modalTitle").innerText = title;
       document.getElementById("modalText").innerText = text;
-      document.getElementById("modalOverlay").style.display = "flex";
+      document.getElementById("modalOverlay").classList.add("active");
     }
     function closeModal() {
-      document.getElementById("modalOverlay").style.display = "none";
+      document.getElementById("modalOverlay").classList.remove("active");
     }
     function showButtonInfo(element) {
       const title = element.getAttribute("data-title");
